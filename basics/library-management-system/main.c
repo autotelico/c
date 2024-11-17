@@ -29,8 +29,8 @@ struct Book *findBookByTitle(char bookTitle[], struct Book bookArray[], int book
     {
         char bookArrayTitleCopy[50];
         strcpy(bookArrayTitleCopy, bookArray[i].title);
-        char lcBookArrayTitleCopy = toLowercase(bookArrayTitleCopy);
-        char lcBookTitleCopy = toLowercase(bookTitleCopy);
+        char *lcBookArrayTitleCopy = toLowercase(bookArrayTitleCopy);
+        char *lcBookTitleCopy = toLowercase(bookTitleCopy);
 
         printf("[%s | %s]\n", bookArrayTitleCopy, bookTitleCopy);
         if (strcmp(lcBookArrayTitleCopy, lcBookTitleCopy) == 0)
@@ -38,8 +38,6 @@ struct Book *findBookByTitle(char bookTitle[], struct Book bookArray[], int book
             printf("Book found!!!\n");
             return &bookArray[i];
         }
-        free(lcBookArrayTitleCopy);
-        free(lcBookTitleCopy);
     }
 }
 
@@ -93,7 +91,7 @@ int main()
     struct Book book2 = {"Nice Bookus", "John Smith", 50, true};
     struct User charlotte = {"Charlotte", {{0}}, {false, false, false, false, false}};
 
-    struct Book allBooks[] = {{"", {{0}}}, {false, false, false, false, false}, book1, book2};
+    struct Book allBooks[] = {{{0}}, book1, book2};
     int allBooksSize = sizeof(allBooks) / sizeof(allBooks[0]);
 
     while (true)
@@ -142,8 +140,9 @@ int main()
             }
             printf("\n");
             getchar();
-            scanf("%d", (int)&bookToReturnIndex);
-            printf("The index of the book you want to return is %s.", bookToReturnIndex);
+            scanf("%d", &bookToReturnIndex);
+            bookToReturnIndex = 49 - bookToReturnIndex - 1;
+            printf("The index of the book you want to return is %c.\n", bookToReturnIndex);
             // returnBook(bookTitle, &charlotte);
             break;
         case '4':
