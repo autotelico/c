@@ -57,12 +57,12 @@ int main()
             }
             printf("\n");
             getchar();
-            scanf("%d", &insertedIndexChar);
+            scanf("%c", &insertedIndexChar);
             // Correct char value to int correspondent
             int bookToReturnIndex = insertedIndexChar - '0';
             printf("The index of the book you want to return is %c.\n", insertedIndexChar);
-            struct Book foundBookReturnBook = charlotte.booksBorrowed[bookToReturnIndex];
-            returnBook(&foundBookReturnBook, &charlotte, bookToReturnIndex);
+            struct Book *foundBookReturnBook = &charlotte.booksBorrowed[bookToReturnIndex];
+            returnBook(foundBookReturnBook, &charlotte, bookToReturnIndex);
             break;
         case '4':
             printf("Program ended.\n");
