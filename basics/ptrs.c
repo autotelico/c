@@ -1,5 +1,4 @@
 #include <stdio.h>
-<<<<<<< HEAD
 #include <stdlib.h>
 #include <string.h>
 
@@ -12,17 +11,5 @@ int main() {
         printf("%d\n", arrayCopy[i]);
     }
     free(arrayCopy);
-=======
-
-int calculateArraySize(int array[]) {
-    int result = sizeof(array) / sizeof(int);
-}
-
-int main(void) {
-    int array[] = {1, 2, 3, 4, 5};
-    
-    printf("%lu", calculateArraySize(&array));
-    
->>>>>>> f343285528498367dfabc0db5fa9284772f12f36
     return 0;
 }
