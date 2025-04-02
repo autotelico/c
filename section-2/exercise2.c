@@ -11,7 +11,7 @@ int main(void) {
 /*
  * (a) Identify the directives and statements in the program
     A: Directives: #include <stdio.h>
-        Statements: all printf lines
+        Statements: all printf lines and return
     (b) What output does the program produce?
     A: The output of the program is 0;
  */

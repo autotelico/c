@@ -2,7 +2,8 @@
 #include <string.h>
 
 int main() {
-  /* char title[] = "Lord of the Rings";
+  /*
+  char title[] = "Lord of the Rings";
   int titleSize = strlen(title);
   printf("titleSize: %d\n", titleSize);
   for (int i = 0; i < titleSize; i++) {
@@ -16,14 +17,10 @@ int main() {
   char *token;
   token = strtok(favAnimalCopy, ",");
   printf("%s\n", token);
-  
+
   while ((token = strtok(NULL, ",")) != NULL) {
     printf("%s\n", token);
   }
-  printf("%s", strrev(favAnimal));
-  
-
-  
 
   return 0;
 }
