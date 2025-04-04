@@ -3,6 +3,13 @@
 #include <stdlib.h>
 #include <dirent.h>
 
+void runRm(char** filenames, int fileCount) {
+	for (int i = 0; i < fileCount; i++) {
+		int result = remove(filenames[i]);
+		printf("%d\n", result);
+	}
+}
+
 void runEcho(char** stringArray, int size) {
 	for (int i = 1; i < size - 1; i++) {
 		printf("%s ", stringArray[i]);
@@ -49,11 +56,15 @@ void parseCmd(char** cmd, int size) {
 		runLs();
 	}
 
+	// cat
 	if (strcmp(cmd[0], "cat") == 0) {
 		runCat(cmd[1]);
 	}
 
-	// cat
+	// rm
+	if (strcmp(cmd[0], "rm") == 0) {
+		runRm(cmd + 1, size - 2);
+	}
 
 }
 
