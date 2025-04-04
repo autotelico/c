@@ -17,7 +17,7 @@ void runEcho(char** stringArray, int size) {
 	printf("\n");
 }
 
-void runLs() {
+void runLs(char* args[], int argsSize) {
 	DIR* fd;
 	struct dirent* in_file;
 	fd = opendir(".");
@@ -26,11 +26,25 @@ void runLs() {
 		exit(1);
 	}
 
-	while ((in_file = readdir(fd))) {
-		if (in_file->d_name[0] != '.') {
-			printf("%s", in_file->d_name);
+	// if there are options
+	int optAll = 0; // -a
+	
+	for (int i = 0; i < argsSize; i++) {
+		if (strcmp(args[i], "-a") == 0) {
+			optAll = 1;
+			break;
 		}
 	}
+
+	while ((in_file = readdir(fd))) {
+		if (optAll == 0) {
+			if (in_file->d_name[0] == '.') {
+				continue;
+			}
+		}
+		printf("%s\n", in_file->d_name);
+	}
+
 	closedir(fd);
 }
 
@@ -46,14 +60,13 @@ void runCat(char* filename) {
 
 void parseCmd(char** cmd, int size) {
 	// echo
-	if (strcmp(cmd[0], "echo") == 0) {
-		
+	if (strcmp(cmd[0], "echo") == 0) {	
 		runEcho(cmd, size);
 	}
 	
 	// ls
 	if (strcmp(cmd[0], "ls") == 0) {
-		runLs();
+		runLs(cmd, size - 1);
 	}
 
 	// cat
