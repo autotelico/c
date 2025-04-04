@@ -3,6 +3,13 @@
 #include <stdlib.h>
 #include <dirent.h>
 
+void runEcho(char** stringArray, int size) {
+	for (int i = 1; i < size - 1; i++) {
+		printf("%s ", stringArray[i]);
+	}
+	printf("\n");
+}
+
 void runLs() {
 	DIR* fd;
 	struct dirent* in_file;
@@ -30,7 +37,13 @@ void runCat(char* filename) {
 	fclose(fptr);
 }
 
-void parseCmd(char** cmd) {
+void parseCmd(char** cmd, int size) {
+	// echo
+	if (strcmp(cmd[0], "echo") == 0) {
+		
+		runEcho(cmd, size);
+	}
+	
 	// ls
 	if (strcmp(cmd[0], "ls") == 0) {
 		runLs();
@@ -48,7 +61,7 @@ void parseTokens(char text[]) {
 }
 
 int main(int argc, char** argv) {
-	parseCmd(&argv[1]);
+	parseCmd(&argv[1], argc);
 	
 	return 0;
 }
