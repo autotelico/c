@@ -76,7 +76,11 @@ void parseCmd(char** cmd, int size) {
 
 	// rm
 	if (strcmp(cmd[0], "rm") == 0) {
-		runRm(cmd + 1, size - 2);
+		runRm(&cmd[1], size - 2);
+	}
+
+	if (strcmp(cmd[0], "find") == 0) {
+		// runFind();
 	}
 
 }
