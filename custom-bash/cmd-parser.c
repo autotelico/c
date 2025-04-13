@@ -3,6 +3,17 @@
 #include <stdlib.h>
 #include <dirent.h>
 
+void runFind(char **args, int argSize) {
+	DIR *dir;
+	struct dirent *file;
+	dir = opendir(args[1]);	
+	
+	while (file = readdir(dir)) {
+		printf("%s\n", file->d_name);
+	}
+
+}
+
 void runRm(char** filenames, int fileCount) {
 	for (int i = 0; i < fileCount; i++) {
 		int result = remove(filenames[i]);
@@ -80,7 +91,7 @@ void parseCmd(char** cmd, int size) {
 	}
 
 	if (strcmp(cmd[0], "find") == 0) {
-		// runFind();
+		 runFind(cmd, size);
 	}
 
 }
