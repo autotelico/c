@@ -2,16 +2,66 @@
 #include <string.h>
 #include <stdlib.h>
 #include <dirent.h>
+#include <limits.h>
+#include <sys/stat.h>
+#include <sys/types.h>
 
 void runFind(char **args, int argSize) {
 	DIR *dir;
 	struct dirent *file;
-	dir = opendir(args[1]);	
-	
-	while (file = readdir(dir)) {
-		printf("%s\n", file->d_name);
+	char *dirname = args[1];
+	dir = opendir(dirname);
+
+	if (dir == NULL) {
+		fprintf(stderr, "Failed to open directory");
+		exit(1);
+	}	
+
+	if (dirname == NULL) {
+		fprintf(stderr, "No path was provided");
+		exit(1);
 	}
 
+	char *fileToFind;
+	
+	for (int i = 1; i < argSize; i++) {
+		char *currentArg = args[i];
+		if (strcmp(currentArg, "-name") == 0) {
+			fileToFind = args[i + 1];
+			if (fileToFind != NULL) {
+				break;
+			}
+		}
+	}
+
+	// if there is a file to find:
+	if (fileToFind != NULL) {
+		struct stat pathStat;
+		char fullPath [PATH_MAX];
+		while (file = readdir(dir)) {
+			printf("%s\t", file->d_name);
+			char *rPath = realpath(file->d_name, fullPath);
+			if (strcmp(fileToFind, file->d_name) == 0) {
+				printf("%s\n", fullPath);
+				return;
+			}
+			stat(fullPath, &pathStat);
+			if (S_ISDIR(pathStat.st_mode) == 1) {
+				// File is a directory. Recursively search it
+				// Continue from here
+				runFind(args, argSize);
+			}
+			
+		}
+	} else {
+		fprintf(stderr, "No file to be searched was provided.");
+		exit(1);
+	}
+
+	// in case nothing else works...
+	perror("File not found error");
+	printf("\n");
+	closedir(dir);
 }
 
 void runRm(char** filenames, int fileCount) {
@@ -53,8 +103,9 @@ void runLs(char* args[], int argsSize) {
 				continue;
 			}
 		}
-		printf("%s\n", in_file->d_name);
+		printf("%s\t", in_file->d_name);
 	}
+	printf("\n");
 
 	closedir(fd);
 }
@@ -64,7 +115,7 @@ void runCat(char* filename) {
 	char content[100];
 	fptr = fopen(filename, "r");
 	while (fgets(content, 100, fptr)) {
-		printf("%s\n", content);
+		printf("%s", content);
 	}
 	fclose(fptr);
 }
@@ -94,9 +145,6 @@ void parseCmd(char** cmd, int size) {
 		 runFind(cmd, size);
 	}
 
-}
-
-void parseTokens(char text[]) {
 }
 
 int main(int argc, char** argv) {
