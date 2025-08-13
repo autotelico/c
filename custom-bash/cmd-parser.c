@@ -38,7 +38,7 @@ void runFind(char **args, int argSize) {
 	if (fileToFind != NULL) {
 		struct stat pathStat;
 		char fullPath [PATH_MAX];
-		while (file = readdir(dir)) {
+		while ((file = readdir(dir))) {
 			printf("%s\t", file->d_name);
 			char *rPath = realpath(file->d_name, fullPath);
 			if (strcmp(fileToFind, file->d_name) == 0) {
